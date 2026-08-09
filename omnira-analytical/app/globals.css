@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/*
+  Omnira — Analytical/Investor variant. Design tokens.
+
+  One spacing scale (Tailwind's default 4px-based scale — not redefined),
+  one type scale, one set of semantic color tokens, one radius scale.
+  Nothing outside this file is hardcoded. This variant is a direct
+  descendant of the brand screenshot's dashboard DNA (warm off-white
+  ground, near-black text, monospace data, signal green) executed with a
+  memo/documentation register rather than a marketing one — see
+  components/marketing for how these are used.
+*/
+@theme {
+  /* ---- Type families ----
+     A single grotesk for everything editorial (headline weight carries
+     the hierarchy instead of a separate display face — this variant reads
+     as a written memo, not a poster). Monospace for every number that is
+     data rather than prose. */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---- Extra type sizes (named additions to Tailwind's default scale) ---- */
+  --text-hero: 3.25rem;
+  --text-hero--line-height: 1.05;
+  --text-stat: 2.5rem;
+  --text-stat--line-height: 1;
+
+  /* ---- Brand palette ---- */
+  --color-ink-950: #0e0d0a;
+  --color-ink-900: #16150f;
+  --color-ink-800: #221f17;
+  --color-ink-700: #38352a;
+  --color-ink-600: #57533f;
+  --color-ink-500: #6f6a53;
+  --color-ink-400: #8f8a71;
+
+  --color-paper-0: #f7f5ef;
+  --color-paper-50: #f1efe6;
+  --color-paper-100: #e9e5d8;
+  --color-paper-200: #ddd7c4;
+  --color-paper-white: #ffffff;
+
+  --color-signal-700: #0f5c2b;
+  --color-signal-600: #15803d;
+  --color-signal-500: #1f9d4b;
+  --color-signal-400: #34c266;
+  --color-signal-100: #dcf3e3;
+  --color-signal-50: #f0f9f2;
+
+  /* Secondary muted color: public cloud / failover / "the old way" contexts.
+     Desaturated slate so the Omnira-green-vs-baseline contrast reads
+     instantly wherever both appear in a chart or diagram. */
+  --color-slate-600: #4b5262;
+  --color-slate-500: #6b7284;
+  --color-slate-400: #979db0;
+  --color-slate-200: #d8dae2;
+  --color-slate-100: #e9eaef;
+
+  --color-amber-600: #b5560a;
+  --color-amber-500: #d97706;
+  --color-amber-100: #fbead0;
+  --color-red-700: #a3241a;
+  --color-red-600: #c22e21;
+  --color-red-100: #fbe3df;
+
+  /* ---- Semantic tokens ---- */
+  --color-surface: var(--color-paper-0);
+  --color-surface-raised: var(--color-paper-white);
+  --color-surface-sunken: var(--color-paper-50);
+  --color-surface-inset: var(--color-paper-100);
+  --color-border: var(--color-paper-200);
+  --color-border-strong: var(--color-ink-400);
+  --color-text: var(--color-ink-950);
+  --color-text-muted: var(--color-ink-600);
+  --color-text-faint: var(--color-ink-400);
+
+  /* --color-accent is for TEXT and must hold 4.5:1 on --color-surface.
+     --color-brand is for large graphics, fills, dots, bars, chart lines —
+     3:1 or pure decoration is enough there. */
+  --color-accent: var(--color-signal-700);
+  --color-brand: var(--color-signal-600);
+  --color-brand-strong: var(--color-signal-500);
+  --color-on-brand: var(--color-paper-white);
+
+  --color-baseline: var(--color-slate-500);
+  --color-baseline-text: var(--color-slate-600);
+  --color-baseline-strong: var(--color-slate-600);
+
+  --color-warning-text: var(--color-amber-600);
+  --color-warning-surface: var(--color-amber-100);
+  --color-danger: var(--color-red-700);
+  --color-danger-strong: var(--color-red-600);
+  --color-danger-surface: var(--color-red-100);
+
+  /* ---- Radius scale ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* ---- Elevation ----
+     A translucent-ink hairline instead of a solid border color, so panels
+     read as bounded data without a harder, more clinical stroke. */
+  --shadow-hairline: 0 0 0 1px rgba(14, 13, 10, 0.07), 0 1px 2px rgba(14, 13, 10, 0.03);
+  --shadow-hairline-raised: 0 0 0 1px rgba(14, 13, 10, 0.08), 0 20px 40px -24px rgba(14, 13, 10, 0.22);
+
+  /* ---- Motion ---- */
+  --ease-out-signal: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-pulse-live: pulse-live 2.4s ease-in-out infinite;
+  --animate-draw-in: draw-in 0.9s var(--ease-out-signal) both;
+  --animate-shimmer: shimmer 1.8s ease-in-out infinite;
+
+  @keyframes pulse-live {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+  @keyframes draw-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+  @keyframes packet-move {
+    0% { offset-distance: 0%; opacity: 0; }
+    8% { opacity: 1; }
+    92% { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+::selection {
+  background: var(--color-signal-100);
+  color: var(--color-signal-700);
+}
+
+/* Visible keyboard focus everywhere, respecting the token system. */
+:focus-visible {
+  outline: 2px solid var(--color-signal-500);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tabular numerals wherever mono data is shown, so figures don't jitter. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Visually-hidden but screen-reader-accessible — used for chart/diagram
+   text equivalents (data tables, summaries) that sit under a visual. */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

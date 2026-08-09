@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+/*
+  Omnira — Cinematic design tokens.
+  One spacing scale (Tailwind's default 4px scale — used consistently
+  through utilities, never hand-rolled), one type scale, one set of
+  semantic color tokens, one radius scale. Nothing outside this file is
+  hardcoded. Dark-first: this variant is explicitly licensed to depart
+  from the brand screenshot's light dashboard theme (AGENTS.md / TASK.md).
+*/
+@theme {
+  /* ---- Type families ----
+     Display: Fraunces — documentary-title-card weight for chapter
+     headlines. Body: Inter — quiet and legible. Data: JetBrains Mono —
+     reserved for anything that reads as a live figure. */
+  --font-display: var(--font-fraunces), "Fraunces", ui-serif, serif;
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- Ground (near-black, not pure black — keeps depth for glow work) ---- */
+  --color-void-950: #05070a;
+  --color-void-900: #090c11;
+  --color-void-850: #0d1119;
+  --color-void-800: #121721;
+  --color-void-border: #1c222d;
+
+  /* ---- Signal (the "network is alive" color — electric lime, pushed
+     toward higher chroma from the brand mark's lime green) ---- */
+  --color-signal-300: #d4ff7a;
+  --color-signal-400: #c2ff4d;
+  --color-signal-500: #aeff2e;
+  --color-signal-600: #8fe015;
+  --color-signal-glow: rgba(174, 255, 46, 0.35);
+
+  /* ---- Current (data-in-motion — electric cyan; the one secondary
+     color, used for particle trails and connection lines only) ---- */
+  --color-current-300: #9df3ff;
+  --color-current-400: #5fe6ff;
+  --color-current-500: #2ad8f5;
+  --color-current-glow: rgba(42, 216, 245, 0.35);
+
+  /* ---- Mist (desaturated neutrals — the only non-saturated hues on
+     screen besides the two signal colors above) ---- */
+  --color-mist-050: #f4f6f8;
+  --color-mist-100: #e6eaee;
+  --color-mist-300: #b8c1cb;
+  --color-mist-500: #7d8794;
+  --color-mist-600: #5c6570;
+  --color-mist-700: #3d434c;
+  --color-mist-800: #262b32;
+
+  /* ---- Functional (used sparingly — error legibility only; kept
+     muted so it never competes with signal/current as a screen accent) ---- */
+  --color-caution-500: #ff7a6b;
+
+  /* ---- Semantic tokens ---- */
+  --color-ground: var(--color-void-950);
+  --color-panel: var(--color-void-850);
+  --color-panel-raised: var(--color-void-800);
+  --color-hairline: var(--color-void-border);
+  --color-ink: var(--color-mist-050);
+  --color-ink-muted: var(--color-mist-300);
+  --color-ink-faint: var(--color-mist-600);
+  --color-accent: var(--color-signal-500);
+  --color-accent-strong: var(--color-signal-400);
+  --color-accent-motion: var(--color-current-400);
+  --color-danger: var(--color-caution-500);
+
+  /* ---- Radius scale ---- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-full: 999px;
+
+  /* ---- Type scale — real range on purpose. Chapter openers can be
+     enormous; body stays conservative. Not a flat 6-step scale. ---- */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.12em;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-lead: clamp(1.125rem, 1.1vw + 0.85rem, 1.5rem);
+  --text-lead--line-height: 1.45;
+  --text-data: clamp(1.5rem, 1vw + 1.25rem, 2.25rem);
+  --text-data--line-height: 1.1;
+  --text-title: clamp(1.75rem, 2.4vw + 1.1rem, 3.25rem);
+  --text-title--line-height: 1.05;
+  --text-title--letter-spacing: -0.01em;
+  --text-chapter: clamp(2.75rem, 6vw + 1rem, 6.5rem);
+  --text-chapter--line-height: 0.98;
+  --text-chapter--letter-spacing: -0.015em;
+  --text-hero: clamp(3.25rem, 9vw + 1rem, 11rem);
+  --text-hero--line-height: 0.94;
+  --text-hero--letter-spacing: -0.02em;
+
+  /* ---- Motion ---- */
+  --ease-signal: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-pulse-node: pulse-node 3.4s ease-in-out infinite;
+  --animate-drift-line: drift-line 2.6s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.8s ease-in-out infinite;
+
+  @keyframes pulse-node {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.92);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes drift-line {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes dart-out {
+    0% {
+      offset-distance: 0%;
+      opacity: 0;
+    }
+    12% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 1;
+    }
+    100% {
+      offset-distance: 100%;
+      opacity: 0;
+    }
+  }
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+* {
+  border-color: var(--color-hairline);
+}
+
+::selection {
+  background: var(--color-signal-500);
+  color: var(--color-void-950);
+}
+
+/* Visible keyboard focus everywhere, respecting the token system. */
+:focus-visible {
+  outline: 2px solid var(--color-signal-400);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tabular numerals wherever mono data is shown, so figures don't jitter. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Utility: visually-hidden but reachable — used for the cold-open's live
+   region and skip-link style affordances. */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

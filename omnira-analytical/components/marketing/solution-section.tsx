@@ -1,0 +1,59 @@
+import { SectionShell } from "./section-shell";
+import { SectionHeading } from "@/components/ui/section-heading";
+
+/** §02 The Solution — CONTENT.md §03–04: compute treated like electricity,
+ * generated across a distributed grid and routed to demand rather than
+ * permanently provisioned; Data Plane and Compute Plane split apart. Kept
+ * conceptual — §03 Architecture goes to implementation-level detail. */
+export function SolutionSection() {
+  return (
+    <SectionShell id="solution">
+      <SectionHeading
+        index="02"
+        title="Treat computing power like electricity, not like real estate."
+        dek={
+          <>
+            Electricity isn&apos;t generated on-site and stockpiled — it&apos;s produced across a
+            distributed grid and routed to wherever it&apos;s needed, the moment it&apos;s needed.
+            Omnira applies the same logic to compute: capacity is distributed across many
+            devices and dynamically routed to workloads, rather than permanently provisioned in
+            one place and left running.
+          </>
+        }
+      />
+
+      <div className="mt-14 grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_auto_1fr]">
+        <div className="rounded-(--radius-lg) border border-(--color-border) bg-(--color-surface-raised) p-6">
+          <p className="font-mono text-xs uppercase tracking-wider text-(--color-text-faint)">The Data Plane</p>
+          <p className="mt-2 text-lg font-semibold text-(--color-text)">Where your data stays</p>
+          <p className="mt-2 text-sm leading-relaxed text-(--color-text-muted)">
+            Customer data remains on-premises or in customer-controlled cloud storage. It never
+            has to move for compute to happen.
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center py-2 lg:py-0" aria-hidden>
+          <svg viewBox="0 0 64 24" className="h-6 w-16 rotate-90 text-(--color-border-strong) lg:rotate-0">
+            <line x1="2" y1="12" x2="54" y2="12" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M48 6l8 6-8 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+
+        <div className="rounded-(--radius-lg) border border-(--color-border) bg-(--color-surface-raised) p-6">
+          <p className="font-mono text-xs uppercase tracking-wider text-(--color-text-faint)">The Compute Plane</p>
+          <p className="mt-2 text-lg font-semibold text-(--color-text)">Where computing happens</p>
+          <p className="mt-2 text-sm leading-relaxed text-(--color-text-muted)">
+            Computation runs elsewhere, on available devices — routed dynamically to wherever
+            capacity exists, without the master data moving with it.
+          </p>
+        </div>
+      </div>
+
+      <p className="mt-8 max-w-[64ch] text-sm text-(--color-text-muted)">
+        Decoupling data from compute is the mechanism, not the whole story — the next section
+        walks through the full system: the Data Plane, the Control Plane that routes work
+        between them, and the Compute Plane / Edge Fleet that runs it.
+      </p>
+    </SectionShell>
+  );
+}

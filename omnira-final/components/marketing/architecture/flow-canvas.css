@@ -1,0 +1,16 @@
+/* Restyle React Flow's chrome to match the token system instead of its
+   default theme — this file is only ever imported by flow-canvas.tsx. */
+
+.react-flow {
+  background: var(--color-panel-sunken);
+}
+
+.react-flow__attribution {
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.react-flow__attribution a {
+  color: var(--color-ink-faint);
+}

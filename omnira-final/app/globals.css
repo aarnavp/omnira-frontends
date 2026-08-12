@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+/*
+  Omnira — Final. Design tokens.
+
+  One spacing scale (Tailwind's default 4px scale, not redefined), one type
+  scale, one set of semantic color tokens, one radius scale. Nothing outside
+  this file is hardcoded.
+
+  This variant merges the two sibling sites' token vocabularies into one:
+  the physical dark palette is cinematic's void/signal/mist scale (reused
+  verbatim — same brand accent, same near-black ground, for cross-site
+  consistency), and the semantic layer speaks both cinematic's naming
+  (ground/panel/ink/hairline — used by the ported ui primitives) and
+  analytical's naming (brand/baseline/warning/danger — used by the ported
+  stat/chart/table components), so components port across with their class
+  names intact and only their token *values* change.
+*/
+@theme {
+  /* ---- Type families — pure sans + mono, no serif. The mixed-weight
+     headline device (see MixedHeadline) carries the "confident headline"
+     job that a display serif carried in the cinematic variant. ---- */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---- Ground (near-black, not pure black — reused verbatim from
+     omnira-cinematic) ---- */
+  --color-void-950: #05070a;
+  --color-void-900: #090c11;
+  --color-void-850: #0d1119;
+  --color-void-800: #121721;
+  --color-void-border: #1c222d;
+
+  /* ---- Signal — the one brand accent, reused verbatim from cinematic
+     for cross-site consistency (it's the actual wordmark color). ---- */
+  --color-signal-300: #d4ff7a;
+  --color-signal-400: #c2ff4d;
+  --color-signal-500: #aeff2e;
+  --color-signal-600: #8fe015;
+  --color-signal-glow: rgba(174, 255, 46, 0.35);
+
+  /* ---- Index — a small, deliberately desaturated tertiary hue for
+     exactly one job: the FIG-label / numbered-index highlight chip (the
+     inspo's periwinkle chip). Kept out of charts and never used as a CTA
+     color, so it never competes with signal-green as *the* brand color. ---- */
+  --color-index-300: #b9beff;
+  --color-index-500: #7b81e8;
+  --color-index-600: #5c62c9;
+  --color-index-surface: rgba(123, 129, 232, 0.16);
+  --color-brand-surface: rgba(174, 255, 46, 0.13);
+
+  /* ---- Mist — desaturated neutrals, reused verbatim from cinematic. Also
+     backs the "baseline / old way / public cloud" comparison color used in
+     analytical's charts and tables. ---- */
+  --color-mist-050: #f4f6f8;
+  --color-mist-100: #e6eaee;
+  --color-mist-300: #b8c1cb;
+  --color-mist-500: #7d8794;
+  --color-mist-600: #5c6570;
+  --color-mist-700: #3d434c;
+  --color-mist-800: #262b32;
+
+  /* ---- Functional — status pills, warnings, errors. Kept muted so
+     neither competes with signal-green as a screen accent. ---- */
+  --color-caution-500: #ff7a6b;
+  --color-caution-600: #e6604f;
+  --color-caution-surface: rgba(255, 122, 107, 0.14);
+  --color-warning-500: #f5a524;
+  --color-warning-surface: rgba(245, 165, 36, 0.14);
+
+  /* ---- Semantic tokens — ground/panel/ink family (cinematic naming,
+     used by the ported ui primitives: reveal, button, logo, count-up). ---- */
+  --color-ground: var(--color-void-950);
+  --color-panel: var(--color-void-850);
+  --color-panel-sunken: var(--color-void-900);
+  --color-panel-inset: var(--color-void-800);
+  --color-hairline: var(--color-void-border);
+  --color-hairline-strong: var(--color-mist-700);
+  --color-ink: var(--color-mist-050);
+  --color-ink-muted: var(--color-mist-300);
+  --color-ink-faint: var(--color-mist-600);
+
+  /* ---- Semantic tokens — brand/baseline/warning/danger family
+     (analytical naming, used by the ported stat/chart/table components). ---- */
+  --color-accent: var(--color-signal-400);
+  --color-accent-strong: var(--color-signal-300);
+  --color-brand: var(--color-signal-500);
+  --color-brand-strong: var(--color-signal-400);
+  --color-on-brand: var(--color-void-950);
+  --color-index: var(--color-index-500);
+  --color-index-chip: var(--color-index-surface);
+  --color-baseline: var(--color-mist-500);
+  --color-baseline-text: var(--color-mist-300);
+  --color-baseline-strong: var(--color-mist-600);
+  --color-warning-text: var(--color-warning-500);
+  --color-danger: var(--color-caution-500);
+  --color-danger-strong: var(--color-caution-600);
+  --color-danger-surface: var(--color-caution-surface);
+
+  /* ---- Radius scale — flatter than cinematic (32px max), matching
+     analytical's tighter numbers. Avoid excessive rounded rectangles. ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  /* ---- Elevation — a translucent hairline stroke, not a drop shadow,
+     recalculated for a dark ground. Panels are "separated by a hairline,"
+     not boxed with a heavy shadow. ---- */
+  --shadow-hairline: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-hairline-raised: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+
+  /* ---- Type scale — analytical's numeric sizes for data, cinematic's
+     fluid clamp() approach dialed back for the hero (not poster-scale —
+     the mixed-weight headline device carries the confidence instead). ---- */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.14em;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-lead: clamp(1.125rem, 1vw + 0.9rem, 1.375rem);
+  --text-lead--line-height: 1.45;
+  --text-stat: 2.5rem;
+  --text-stat--line-height: 1;
+  --text-title: clamp(1.75rem, 2vw + 1.1rem, 2.75rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.015em;
+  --text-hero: clamp(2.75rem, 5vw + 1.25rem, 5.5rem);
+  --text-hero--line-height: 0.98;
+  --text-hero--letter-spacing: -0.02em;
+
+  /* ---- Motion — a smaller vocabulary than either sibling alone: one
+     signature centerpiece (Architecture) plus restrained reveals
+     everywhere else, not a merged superset of both siblings' motion. ---- */
+  --ease-signal: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-pulse-node: pulse-node 3.4s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.8s ease-in-out infinite;
+  --animate-draw-in: draw-in 0.9s var(--ease-signal) both;
+  --animate-packet-move: packet-move 2.2s linear infinite;
+
+  @keyframes pulse-node {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.92);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  @keyframes draw-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes packet-move {
+    0% {
+      offset-distance: 0%;
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    100% {
+      offset-distance: 100%;
+      opacity: 0;
+    }
+  }
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+* {
+  border-color: var(--color-hairline);
+}
+
+::selection {
+  background: var(--color-signal-500);
+  color: var(--color-void-950);
+}
+
+/* Visible keyboard focus everywhere, respecting the token system. */
+:focus-visible {
+  outline: 2px solid var(--color-signal-400);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tabular numerals wherever mono data is shown, so figures don't jitter. */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Visually-hidden but reachable — skip links, chart text equivalents. */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
